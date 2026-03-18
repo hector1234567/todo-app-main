@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("./fonts/JosefinSans-VariableFont_wght.ttf") format("woff2");
+}
+
+* {
+  box-sizing: border-box;
+
+  --white-color: #fff;
+  --black-color: #000;
+
+  --purple-800: #393a4b;
+  --purple-700: #4d5067;
+  --purple-600: #5b5e7e;
+  --purple-300: #c8cbe7;
+  --purple-100: #e3e4f1;
+
+  --gray-600: #9495a5;
+  --gray-300: #d1d2da;
+  --gray-50: #fafafa;
+
+  --navi-950: #171823;
+  --navi-900: #25273d;
+  --navi-850: #494c6b;
+
+  --blue-500: #3a7cfd;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Josefin Sans", sans-serif;
+  background-color: hsl(0, 0%, 98%);
+  color: hsl(235, 19%, 35%);
+  margin: 0;
+  padding: 0;
+}
