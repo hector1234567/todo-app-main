@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import morgan from "morgan";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.static(join(__dirname, "../")));
+app.use(morgan("dev"));
 
 app.get("/api/todos", (req, res) => {
   const todos = [
@@ -21,7 +23,11 @@ app.get("/api/todos", (req, res) => {
   res.json(todos);
 });
 
-app.get("*", (req, res) => {
+app.get("/api/{*splat}", (req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
+
+app.get("/{*splat}", (req, res) => {
   res.sendFile(join(__dirname, "../index.html"));
 });
 
