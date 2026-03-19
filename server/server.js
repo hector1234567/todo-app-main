@@ -3,7 +3,9 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import morgan from "morgan";
-import db from "./db.js";
+
+import todosRouter from "./routes/todosRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,30 +18,8 @@ app.use(express.static(join(__dirname, "../")));
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.get("/api/todos", (req, res) => {
-  const todos = db
-    .prepare("SELECT * FROM todos ORDER BY created_at DESC")
-    .all();
-  res.json(todos);
-});
-
-app.post("/api/todos", (req, res) => {
-  const { text, completed = false } = req.body;
-  if (!text) {
-    return res.status(400).json({ error: "Text is required" });
-  }
-  db.prepare("INSERT INTO todos (text, completed) VALUES (?, ?)").run(
-    text,
-    completed ? 1 : 0,
-  );
-  res.status(201).json({ message: "Todo created" });
-});
-
-app.delete("/api/todos/:id", (req, res) => {
-  const { id } = req.params;
-  db.prepare("DELETE FROM todos WHERE id = ?").run(id);
-  res.json({ message: "Todo deleted" });
-});
+app.use("/api/todos", todosRouter);
+app.use("/api/auth", authRouter);
 
 app.get("/api/{*splat}", (req, res) => {
   res.status(404).json({ error: "Not found" });
