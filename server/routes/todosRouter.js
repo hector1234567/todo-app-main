@@ -1,7 +1,10 @@
 import { Router } from "express";
 import db from "../db.js";
+import { authenticateToken } from "../middleware/auth.js";
 
 const router = Router();
+
+router.use(authenticateToken);
 
 router.get("/", (req, res) => {
   const todos = db
