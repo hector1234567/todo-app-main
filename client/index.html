@@ -14,73 +14,10 @@
 
     <title>Todo app | Hector B</title>
     <link rel="stylesheet" href="./style.css" />
-    <script type="module" src="./src/App.js"></script>
   </head>
   <body>
-    <header>
-      <h1>Todo</h1>
-      <!-- <img src="./images/icon-sun.svg" alt="icon sun" /> -->
-      <button><img src="./images/icon-moon.svg" alt="icon moon" /></button>
-    </header>
-    <main>
-      <form action="">
-        <div class="circle"></div>
-        <input type="text" placeholder="Create a new todo..." id="input" />
-      </form>
-      <ul id="list">
-        <li class="item" draggable="true" data-completed="true">
-          <div class="circle"></div>
-          <span>Complete online JavaScript course</span>
-          <button>
-            <img src="./images/icon-cross.svg" alt="icon cross" />
-          </button>
-        </li>
-        <li class="item" draggable="true">
-          <div class="circle"></div>
-          <span>Jog around the park 3x</span>
-          <button>
-            <img src="./images/icon-cross.svg" alt="icon cross" />
-          </button>
-        </li>
-        <li class="item" draggable="true">
-          <div class="circle"></div>
-          <span>10 minutes meditation</span>
-          <button>
-            <img src="./images/icon-cross.svg" alt="icon cross" />
-          </button>
-        </li>
-        <li class="item" draggable="true">
-          <div class="circle"></div>
-          <span>Read for 1 hour</span>
-          <button>
-            <img src="./images/icon-cross.svg" alt="icon cross" />
-          </button>
-        </li>
-        <li class="item" draggable="true">
-          <div class="circle"></div>
-          <span>Pick up groceries</span>
-          <button>
-            <img src="./images/icon-cross.svg" alt="icon cross" />
-          </button>
-        </li>
-        <li class="item" draggable="true">
-          <div class="circle"></div>
-          <span>Complete Todo App on Frontend Mentor</span>
-          <button>
-            <img src="./images/icon-cross.svg" alt="icon cross" />
-          </button>
-        </li>
-      </ul>
-      <div id="actions">
-        <span id="items-left">0 items left</span>
-        <div id="filters">
-          <button id="all">All</button>
-          <button id="active">Active</button>
-          <button id="completed">Completed</button>
-        </div>
-        <button id="clear-completed">Clear Completed</button>
-      </div>
-    </main>
+    <div id="root"></div>
     <footer>Drag and drop to reorder list</footer>
+    <script type="module" src="./src/App.jsx"></script>
   </body>
 </html>
