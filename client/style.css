@@ -133,7 +133,8 @@ header {
   justify-content: start;
   align-items: center;
 
-  button {
+  .header-link {
+    text-decoration: none;
     background: none;
     border: none;
     cursor: pointer;
@@ -152,6 +153,11 @@ h1 {
   color: var(--white-color);
   text-transform: uppercase;
   margin-right: auto;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 main {
@@ -276,6 +282,10 @@ form {
   font-weight: 700;
   display: flex;
   gap: 1.6rem;
+
+  button.selected {
+    color: var(--blue-500);
+  }
 }
 
 footer {

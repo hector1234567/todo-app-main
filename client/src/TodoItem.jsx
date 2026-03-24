@@ -1,6 +1,10 @@
 function TodoItem({ item }) {
   return (
-    <li className="item" draggable="true" data-completed={item.completed}>
+    <li
+      className="item"
+      draggable="true"
+      data-completed={item.completed ? 'true' : 'false'}
+    >
       <button className="done-button"></button>
       <span>{item.text}</span>
       <button className="delete-button">

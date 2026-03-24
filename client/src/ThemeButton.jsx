@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 export default function ThemeButton() {
   const [theme, setTheme] = React.useState(
-    document.documentElement.getAttribute('data-theme')
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   );
 
   function switchTheme() {
@@ -16,7 +16,7 @@ export default function ThemeButton() {
   }, [theme]);
 
   return (
-    <button onClick={switchTheme}>
+    <button onClick={switchTheme} class="header-link">
       {theme === 'dark' ? (
         <img src="./images/icon-sun.svg" alt="icon sun" />
       ) : (

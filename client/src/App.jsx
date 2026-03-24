@@ -1,26 +1,18 @@
 import { createRoot } from 'react-dom/client';
-import TodoForm from './TodoForm';
-import ActionsPannel from './ActionsPannel';
-import TodoList from './TodoList';
 import ThemeButton from './ThemeButton';
-import UserButton from './UserButton';
+import { StrictMode } from 'react';
+import { Link, RouterProvider, createRouter } from '@tanstack/react-router';
+import { routeTree } from './routeTree.gen';
+
+const router = createRouter({ routeTree });
 
 function App() {
-  return (
-    <>
-      <header>
-        <h1>Todo</h1>
-        <UserButton />
-        <ThemeButton />
-      </header>
-      <main>
-        <TodoForm />
-        <TodoList />
-        <ActionsPannel />
-      </main>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 const root = createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);

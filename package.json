@@ -4,9 +4,11 @@
   "description": "![Design preview for the Todo app coding challenge](preview.jpg)",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run start",
+    "build": "cd client && npm run build",
+    "preview": "cd client && npm run preview",
     "format": "prettier --write .",
     "lint": "eslint ."
   },
@@ -17,25 +19,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/hector1234567/todo-app-main/issues"
   },
   "homepage": "https://github.com/hector1234567/todo-app-main#readme",
   "devDependencies": {
-    "@tanstack/router-devtools": "^1.166.11",
-    "@tanstack/router-plugin": "^1.167.4",
-    "@types/eslint__js": "^8.42.3",
-    "@vitejs/plugin-react": "^6.0.1",
-    "eslint": "^10.0.3",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
-    "prettier": "^3.8.1",
-    "vite": "^8.0.1"
-  },
-  "dependencies": {
-    "@tanstack/react-router": "^1.168.3",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "concurrently": "^9.2.1"
   }
 }

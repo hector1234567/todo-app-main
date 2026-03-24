@@ -1,11 +1,13 @@
 import React from 'react';
 
-export default function TodoForm() {
+const MY_TOKEN =
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJIZWN0b3IiLCJlbWFpbCI6ImhlY3RvckBleGFtcGxlLmNvbSIsImlhdCI6MTc3NDM2OTkzNiwiZXhwIjoxNzc1MjMzOTM2fQ.4SuuHNZjWtohkRD392OKI5yqt0esMe6peBTHsM9_a_w';
+
+export default function TodoForm({ fetchItems }) {
   const [inputValue, setInputValue] = React.useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(inputValue);
     if (inputValue.trim() === '') return;
 
     try {
@@ -13,15 +15,15 @@ export default function TodoForm() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJIZWN0b3IiLCJlbWFpbCI6ImhlY3RvckBleGFtcGxlLmNvbSIsImlhdCI6MTc3MzkxNjEyOSwiZXhwIjoxNzczOTE5NzI5fQ.-f8kenEJuPmMovawM6o1lsTjLWxlZ8goARa2BWnoE-Q',
+          authorization: MY_TOKEN,
         },
         body: JSON.stringify({ text: inputValue }),
       });
+      setInputValue('');
+      fetchItems();
     } catch (error) {
       console.error('Error submitting todo:', error);
     }
-    setInputValue('');
   }
 
   return (
@@ -31,7 +33,8 @@ export default function TodoForm() {
         type="text"
         placeholder="Create a new todo..."
         id="input"
-        onInput={(e) => setInputValue(e.target.value)}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
     </form>
   );
