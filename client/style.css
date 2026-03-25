@@ -198,6 +198,7 @@ form {
   border-radius: 0.5rem;
   width: 100%;
   padding: 2.4rem;
+  box-shadow: var(--drop-shadow);
 
   display: flex;
   flex-direction: column;

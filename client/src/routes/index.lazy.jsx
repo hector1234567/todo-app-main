@@ -17,7 +17,13 @@ function RouteComponent() {
       <main>
         <TodoForm fetchItems={fetchItems} />
         <TodoList filter={filter} items={items} fetchItems={fetchItems} />
-        <ActionsPannel filter={filter} setFilter={setFilter} />
+        <ActionsPannel
+          filter={filter}
+          setFilter={setFilter}
+          length={items?.length}
+          items={items}
+          fetchItems={fetchItems}
+        />
       </main>
       <footer>Drag and drop to reorder list</footer>
     </>

@@ -1,11 +1,14 @@
-import { createLazyFileRoute, Link } from '@tanstack/react-router';
+import { createLazyFileRoute, Link, redirect } from '@tanstack/react-router';
 import { useState } from 'react';
+
+import { useNavigate } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/login')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -26,10 +29,11 @@ function RouteComponent() {
       }
 
       const data = await response.json();
-      console.log('Login successful:', data);
-      // Handle successful login (e.g., store token, redirect)
+      localStorage.setItem('token', 'Bearer ' + data.token); // Store token in localStorage
+      navigate({ to: '/' }); // Redirect to home page after successful login
     } catch (error) {
       console.error('Error logging in:', error);
+      alert('Login failed. Please check your credentials and try again.');
     }
   }
 

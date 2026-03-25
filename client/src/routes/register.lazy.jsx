@@ -1,11 +1,13 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/register')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,8 +37,10 @@ function RouteComponent() {
       const data = await response.json();
       console.log('Registration successful:', data);
       // Handle successful registration (e.g., redirect to login)
+      navigate({ to: '/login' });
     } catch (error) {
       console.error('Error registering:', error);
+      alert('Registration failed. Please try again.');
     }
   }
 
