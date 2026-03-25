@@ -14,15 +14,13 @@ function RootComponent() {
         <h1>
           <Link to="/">Todo</Link>
         </h1>
-        <Link to="/auth" class="header-link">
+        <Link to="/login" className="header-link">
           <img src="./images/icon-user.svg" alt="icon user" />
         </Link>
         <ThemeButton />
       </header>
-      <main>
-        <Outlet />
-        <TanStackRouterDevtools />
-      </main>
+      <Outlet />
+      <TanStackRouterDevtools />
     </>
   );
 }

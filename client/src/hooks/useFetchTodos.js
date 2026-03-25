@@ -5,11 +5,9 @@ const MY_TOKEN =
 
 export default function useFetchTodos() {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   async function fetchItems() {
     try {
-      setLoading(true);
       const response = await fetch('/api/todos', {
         method: 'GET',
         headers: {
@@ -19,10 +17,8 @@ export default function useFetchTodos() {
       });
       const data = await response.json();
       setItems(data);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching items:', error);
-      setLoading(false);
     }
   }
 
@@ -30,5 +26,5 @@ export default function useFetchTodos() {
     fetchItems();
   }, []);
 
-  return { items, loading, fetchItems };
+  return { items, fetchItems };
 }

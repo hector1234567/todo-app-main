@@ -16,7 +16,7 @@ export default function ThemeButton() {
   }, [theme]);
 
   return (
-    <button onClick={switchTheme} class="header-link">
+    <button onClick={switchTheme} className="header-link">
       {theme === 'dark' ? (
         <img src="./images/icon-sun.svg" alt="icon sun" />
       ) : (

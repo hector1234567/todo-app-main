@@ -11,12 +11,15 @@ export const Route = createLazyFileRoute('/')({
 
 function RouteComponent() {
   const [filter, setFilter] = useState('all');
-  const { items, loading, fetchItems } = useFetchTodos();
+  const { items, fetchItems } = useFetchTodos();
   return (
     <>
-      <TodoForm fetchItems={fetchItems} />
-      <TodoList filter={filter} items={items} loading={loading} />
-      <ActionsPannel filter={filter} setFilter={setFilter} />
+      <main>
+        <TodoForm fetchItems={fetchItems} />
+        <TodoList filter={filter} items={items} fetchItems={fetchItems} />
+        <ActionsPannel filter={filter} setFilter={setFilter} />
+      </main>
+      <footer>Drag and drop to reorder list</footer>
     </>
   );
 }
