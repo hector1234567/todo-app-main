@@ -1,9 +1,9 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
-import useFetchTodos from '../hooks/useFetchTodos';
 import TodoForm from '../TodoForm';
 import TodoList from '../TodoList';
 import ActionsPannel from '../ActionsPannel';
+import { TodosContext } from '../contexts.jsx';
 
 export const Route = createLazyFileRoute('/')({
   component: RouteComponent,
@@ -11,21 +11,15 @@ export const Route = createLazyFileRoute('/')({
 
 function RouteComponent() {
   const [filter, setFilter] = useState('all');
-  const { items, fetchItems } = useFetchTodos();
+  const todosHook = useState([]);
   return (
-    <>
+    <TodosContext.Provider value={todosHook}>
       <main>
-        <TodoForm fetchItems={fetchItems} />
-        <TodoList filter={filter} items={items} fetchItems={fetchItems} />
-        <ActionsPannel
-          filter={filter}
-          setFilter={setFilter}
-          length={items?.length}
-          items={items}
-          fetchItems={fetchItems}
-        />
+        <TodoForm />
+        <TodoList filter={filter} />
+        <ActionsPannel filter={filter} setFilter={setFilter} />
       </main>
       <footer>Drag and drop to reorder list</footer>
-    </>
+    </TodosContext.Provider>
   );
 }

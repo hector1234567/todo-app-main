@@ -1,34 +1,18 @@
-function TodoItem({ item, fetchItems }) {
-  async function deleteItem() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('No token found. Please log in.');
-    }
+import { getTodos } from './api/getTodos';
+import { deleteTodo } from './api/deleteTodo';
+import { updateTodo } from './api/updateTodo';
 
-    await fetch(`/api/todos/${item.id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: token,
-      },
-    });
-    fetchItems();
+function TodoItem({ item, onUpdate }) {
+  async function onDeleteItem() {
+    await deleteTodo(item.id);
+    const todos = await getTodos();
+    onUpdate(todos);
   }
 
   async function toggleCompleted() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('No token found. Please log in.');
-    }
-
-    await fetch(`/api/todos/${item.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify({ ...item, completed: !item.completed }),
-    });
-    fetchItems();
+    await updateTodo(item.id, item.text, !item.completed);
+    const todos = await getTodos();
+    onUpdate(todos);
   }
 
   return (
@@ -45,7 +29,7 @@ function TodoItem({ item, fetchItems }) {
         )}
       </button>
       <span>{item.text}</span>
-      <button className="delete-button" onClick={deleteItem}>
+      <button className="delete-button" onClick={onDeleteItem}>
         <img src="./images/icon-cross.svg" alt="icon cross" />
       </button>
     </li>

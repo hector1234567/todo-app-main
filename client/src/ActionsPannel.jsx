@@ -1,26 +1,19 @@
-export default function ActionsPannel({
-  filter,
-  setFilter,
-  items,
-  fetchItems,
-  length,
-}) {
-  function clearCompleted() {
+import { useContext } from 'react';
+import { TodosContext } from './contexts';
+import { deleteTodo } from './api/deleteTodo';
+import { getTodos } from './api/getTodos';
+
+export default function ActionsPannel({ filter, setFilter }) {
+  const [items, setItems] = useContext(TodosContext);
+
+  async function clearCompleted() {
     try {
       const completedItems = items.filter((item) => item.completed);
       completedItems.forEach(async (item) => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('No token found. Please log in.');
-        }
-        await fetch(`/api/todos/${item.id}`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: token,
-          },
-        });
+        await deleteTodo(item.id);
       });
-      fetchItems();
+      const todos = await getTodos();
+      setItems(todos);
     } catch (error) {
       console.error('Error clearing completed items:', error);
       alert('Failed to clear completed items. Please try again.');
@@ -29,7 +22,7 @@ export default function ActionsPannel({
 
   return (
     <div id="actions">
-      <span id="items-left">{length || 0} items left</span>
+      <span id="items-left">{items.length || 0} items left</span>
       <div id="filters">
         <button
           id="all"
