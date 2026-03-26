@@ -2,7 +2,7 @@ export async function updateTodo(id, text, completed) {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
-      throw new Error('No token found. Please log in.');
+      throw new Error('Please log in.');
     }
     const response = await fetch(`/api/todos/${id}`, {
       method: 'PUT',

@@ -2,10 +2,13 @@ import { useContext, useState } from 'react';
 import { createTodo } from './api/createTodo';
 import { getTodos } from './api/getTodos';
 import { TodosContext } from './contexts';
+import { useNavigate } from '@tanstack/react-router';
+import Modal from './Modal.jsx';
 
 export default function TodoForm() {
   const [inputValue, setInputValue] = useState('');
   const [, setItems] = useContext(TodosContext);
+  const [message, setMessage] = useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -18,8 +21,19 @@ export default function TodoForm() {
       setItems(todos);
     } catch (error) {
       console.error('Error submitting todo:', error);
-      alert('Failed to submit todo. Please try again.');
+      setMessage(
+        'Failed to create todo. ' + (error.message || 'Please try again.')
+      );
     }
+  }
+
+  if (message) {
+    return (
+      <Modal>
+        <p>{message}</p>
+        <button onClick={() => setMessage('')}>Close</button>
+      </Modal>
+    );
   }
 
   return (
@@ -30,6 +44,7 @@ export default function TodoForm() {
         placeholder="Create a new todo..."
         id="input"
         value={inputValue}
+        autoComplete="off"
         onChange={(e) => setInputValue(e.target.value)}
       />
     </form>

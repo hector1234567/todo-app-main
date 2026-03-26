@@ -54,6 +54,8 @@ function RouteComponent() {
           name="username"
           placeholder="Username"
           value={username}
+          required
+          autocomplete="webauthn username"
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
@@ -62,6 +64,8 @@ function RouteComponent() {
           name="email"
           placeholder="Email"
           value={email}
+          required
+          autocomplete="webauthn email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
@@ -70,6 +74,8 @@ function RouteComponent() {
           name="password"
           placeholder="Password"
           value={password}
+          required
+          autocomplete="webauthn new-password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
@@ -78,6 +84,8 @@ function RouteComponent() {
           name="confirmPassword"
           placeholder="Confirm Password"
           value={confirmPassword}
+          required
+          autocomplete="webauthn repeat-password"
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <button type="submit">Register</button>

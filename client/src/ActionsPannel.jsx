@@ -2,22 +2,36 @@ import { useContext } from 'react';
 import { TodosContext } from './contexts';
 import { deleteTodo } from './api/deleteTodo';
 import { getTodos } from './api/getTodos';
+import Modal from './Modal.jsx';
+import { useState } from 'react';
 
 export default function ActionsPannel({ filter, setFilter }) {
   const [items, setItems] = useContext(TodosContext);
+  const [message, setMessage] = useState('');
 
   async function clearCompleted() {
-    try {
-      const completedItems = items.filter((item) => item.completed);
-      completedItems.forEach(async (item) => {
+    const completedItems = items.filter((item) => item.completed);
+    completedItems.forEach(async (item) => {
+      try {
         await deleteTodo(item.id);
-      });
-      const todos = await getTodos();
-      setItems(todos);
-    } catch (error) {
-      console.error('Error clearing completed items:', error);
-      alert('Failed to clear completed items. Please try again.');
-    }
+      } catch (error) {
+        setMessage(
+          'Failed to clear completed items. ' +
+            (error.message || 'Please try again.')
+        );
+      }
+    });
+    const todos = await getTodos();
+    setItems(todos);
+  }
+
+  if (message) {
+    return (
+      <Modal>
+        <p>{message}</p>
+        <button onClick={() => setMessage('')}>Close</button>
+      </Modal>
+    );
   }
 
   return (

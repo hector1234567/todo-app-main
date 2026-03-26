@@ -3,10 +3,19 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Link } from '@tanstack/react-router';
 import ThemeButton from '../ThemeButton';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import ErrorBoundary from '../ErrorBoundary';
 
 export const Route = createRootRoute({
-  component: RootComponent,
+  component: ErrorBoundaryWrappedRootComponent,
 });
+
+function ErrorBoundaryWrappedRootComponent() {
+  return (
+    <ErrorBoundary>
+      <RootComponent />
+    </ErrorBoundary>
+  );
+}
 
 function RootComponent() {
   return (

@@ -2,7 +2,7 @@ export async function createTodo(text) {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
-      throw new Error('No token found. Please log in.');
+      throw new Error('Please log in.');
     }
     const response = await fetch('/api/todos', {
       method: 'POST',

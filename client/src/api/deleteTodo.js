@@ -1,6 +1,11 @@
 export async function deleteTodo(id) {
   try {
     const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Please log in.');
+    }
+
     const response = await fetch(`/api/todos/${id}`, {
       method: 'DELETE',
       headers: {

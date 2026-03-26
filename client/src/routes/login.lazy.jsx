@@ -1,5 +1,5 @@
-import { createLazyFileRoute, Link, redirect } from '@tanstack/react-router';
-import { useState } from 'react';
+import { createLazyFileRoute, Link } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 
@@ -30,12 +30,39 @@ function RouteComponent() {
 
       const data = await response.json();
       localStorage.setItem('token', 'Bearer ' + data.token); // Store token in localStorage
+
+      if (window.PasswordCredential && password) {
+        const credential = new PasswordCredential({
+          id: username,
+          username,
+          password,
+        });
+        navigator.credentials.store(credential);
+      }
+
       navigate({ to: '/' }); // Redirect to home page after successful login
     } catch (error) {
       console.error('Error logging in:', error);
       alert('Login failed. Please check your credentials and try again.');
     }
   }
+
+  async function autologin() {
+    if (window.PasswordCredential) {
+      const credentials = await navigator.credentials.get({ password: true });
+      try {
+        setUsername(credentials.id);
+        setPassword(credentials.password);
+        // await submitLoginForm(new Event('submit'));
+      } catch (e) {
+        console.error('Autologin failed:', e);
+      }
+    }
+  }
+
+  useEffect(() => {
+    autologin();
+  }, []);
 
   return (
     <main>
@@ -47,6 +74,8 @@ function RouteComponent() {
           name="username"
           placeholder="Username"
           value={username}
+          required
+          autoComplete="webauthn username"
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
@@ -55,6 +84,8 @@ function RouteComponent() {
           name="password"
           placeholder="Password"
           value={password}
+          required
+          autoComplete="webauthn current-password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>
