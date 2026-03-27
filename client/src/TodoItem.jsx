@@ -3,12 +3,24 @@ import { deleteTodo } from './api/deleteTodo';
 import { updateTodo } from './api/updateTodo';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Modal from './Modal.jsx';
+import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
-function TodoItem({ item, onUpdate }) {
+function TodoItem({ item, onUpdate, id, index }) {
   const queryClient = useQueryClient();
 
   const [message, setMessage] = useState('');
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id, index });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    cursor: 'grab',
+  };
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteTodo(item.id),
@@ -24,7 +36,7 @@ function TodoItem({ item, onUpdate }) {
 
   async function toggleCompleted() {
     try {
-      await updateTodo(item.id, item.text, !item.completed);
+      await updateTodo(item.id, item.text, !item.completed, item.created_at);
       const todos = await getTodos();
       onUpdate(todos);
     } catch (error) {
@@ -38,6 +50,7 @@ function TodoItem({ item, onUpdate }) {
     return (
       <Modal>
         <p>{message}</p>
+        <Link to="/login">Login</Link>
         <button onClick={() => setMessage('')}>Close</button>
       </Modal>
     );
@@ -48,6 +61,10 @@ function TodoItem({ item, onUpdate }) {
       className="item"
       draggable="true"
       data-completed={item.completed ? 'true' : 'false'}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
     >
       <button className="done-button" onClick={toggleCompleted}>
         {item.completed ? (

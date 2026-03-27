@@ -37,7 +37,7 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { text, completed } = req.body;
+  const { text, completed, createdAt } = req.body;
 
   if (!text) {
     return res.status(400).json({
@@ -46,8 +46,8 @@ router.put("/:id", (req, res) => {
   }
 
   db.prepare(
-    "UPDATE todos SET text = ?, completed = ? WHERE id = ? AND user_id = ?",
-  ).run(text, completed ? 1 : 0, id, req.user.id);
+    "UPDATE todos SET text = ?, completed = ?, created_at = ? WHERE id = ? AND user_id = ?",
+  ).run(text, completed ? 1 : 0, createdAt, id, req.user.id);
   res.json({ message: "Todo updated" });
 });
 

@@ -3,6 +3,7 @@ import { TodosContext } from './contexts';
 import { deleteTodo } from './api/deleteTodo';
 import { getTodos } from './api/getTodos';
 import Modal from './Modal.jsx';
+import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 
 export default function ActionsPannel({ filter, setFilter }) {
@@ -29,6 +30,7 @@ export default function ActionsPannel({ filter, setFilter }) {
     return (
       <Modal>
         <p>{message}</p>
+        <Link to="/login">Login</Link>
         <button onClick={() => setMessage('')}>Close</button>
       </Modal>
     );

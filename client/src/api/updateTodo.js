@@ -1,4 +1,4 @@
-export async function updateTodo(id, text, completed) {
+export async function updateTodo(id, text, completed, createdAt) {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -10,7 +10,7 @@ export async function updateTodo(id, text, completed) {
         'Content-Type': 'application/json',
         Authorization: token,
       },
-      body: JSON.stringify({ text, completed }),
+      body: JSON.stringify({ text, completed, createdAt }),
     });
     if (!response.ok) {
       throw new Error('Failed to update todo.');

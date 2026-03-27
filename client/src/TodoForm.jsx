@@ -2,8 +2,8 @@ import { useContext, useState } from 'react';
 import { createTodo } from './api/createTodo';
 import { getTodos } from './api/getTodos';
 import { TodosContext } from './contexts';
-import { useNavigate } from '@tanstack/react-router';
 import Modal from './Modal.jsx';
+import { Link } from '@tanstack/react-router';
 
 export default function TodoForm() {
   const [inputValue, setInputValue] = useState('');
@@ -31,6 +31,7 @@ export default function TodoForm() {
     return (
       <Modal>
         <p>{message}</p>
+        <Link to="/login">Login</Link>
         <button onClick={() => setMessage('')}>Close</button>
       </Modal>
     );
