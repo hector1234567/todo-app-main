@@ -5,6 +5,8 @@
 
 # Dependencies
 /node_modules
+/server/node_modules
+/client/node_modules
 /.pnp
 .pnp.js
 yarn.debug.log*
@@ -43,3 +45,7 @@ database.db
 *.pem
 .DS_Store
 Thumbs.db
+
+/client/src/routeTree.gen.ts
+
+/server/database.db
