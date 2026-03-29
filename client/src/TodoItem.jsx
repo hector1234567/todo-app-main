@@ -13,13 +13,21 @@ function TodoItem({ item, onUpdate, id, index }) {
 
   const [message, setMessage] = useState('');
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id, index });
+  const {
+    isDragging,
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id, index });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     cursor: 'grab',
+    zIndex: isDragging ? 999 : 'auto',
+    position: 'relative',
   };
 
   const deleteMutation = useMutation({
@@ -59,12 +67,13 @@ function TodoItem({ item, onUpdate, id, index }) {
   return (
     <li
       className="item"
-      draggable="true"
+      // draggable="true"
       data-completed={item.completed ? 'true' : 'false'}
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
+      data-shadow={isDragging || undefined}
     >
       <button className="done-button" onClick={toggleCompleted}>
         {item.completed ? (

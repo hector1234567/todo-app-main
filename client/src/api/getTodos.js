@@ -5,7 +5,6 @@ export async function getTodos() {
       //throw new Error('No token found. Please log in.');
       console.log('No token found. Using local todos.json for testing.');
       const response = await fetch('/todos.json');
-      console.log('Fetched local todos.json:', response);
       return response.json();
     }
     const response = await fetch('/api/todos', {

@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import Modal from '../Modal';
 
 export const Route = createLazyFileRoute('/register')({
   component: RouteComponent,
@@ -9,15 +10,17 @@ export const Route = createLazyFileRoute('/register')({
 function RouteComponent() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   async function submitRegisterForm(event) {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      console.log('Passwords do not match');
+      setMessage('Passwords do not match');
       return;
     }
 
@@ -27,7 +30,7 @@ function RouteComponent() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, email }),
+        body: JSON.stringify({ username, password }),
       });
 
       if (!response.ok) {
@@ -40,8 +43,17 @@ function RouteComponent() {
       navigate({ to: '/login' });
     } catch (error) {
       console.error('Error registering:', error);
-      alert('Registration failed. Please try again.');
+      setMessage('Registration failed. Please try again.\n' + error.message);
     }
+  }
+
+  if (message) {
+    return (
+      <Modal>
+        <p>{message}</p>
+        <button onClick={() => setMessage('')}>Close</button>
+      </Modal>
+    );
   }
 
   return (
@@ -58,7 +70,7 @@ function RouteComponent() {
           autocomplete="webauthn username"
           onChange={(e) => setUsername(e.target.value)}
         />
-        <input
+        {/* <input
           type="text"
           id="email"
           name="email"
@@ -67,7 +79,7 @@ function RouteComponent() {
           required
           autocomplete="webauthn email"
           onChange={(e) => setEmail(e.target.value)}
-        />
+        /> */}
         <input
           type="password"
           id="password"

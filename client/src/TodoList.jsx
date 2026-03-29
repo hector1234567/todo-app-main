@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import Modal from './Modal.jsx';
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import {
   DndContext,
   closestCenter,
@@ -24,12 +25,22 @@ export default function TodoList({ filter }) {
   const [items, setItems] = useContext(TodosContext);
   const [message, setMessage] = useState('');
 
+  const navigate = useNavigate();
+
   useQuery({
     queryKey: ['todos', items],
     queryFn: async () => {
-      const data = await getTodos();
-      setItems(data);
-      return data;
+      try {
+        const data = await getTodos();
+        setItems(data);
+        return data;
+      } catch (error) {
+        console.log(
+          'Failed to load todos. ' + (error.message || 'Please try again.')
+        );
+        navigate({ to: '/login' });
+        return [];
+      }
     },
   });
 

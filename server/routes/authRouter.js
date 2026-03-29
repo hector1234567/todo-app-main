@@ -29,11 +29,12 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    db.prepare(
-      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-    ).run(username, email, hashedPassword);
+    db.prepare("INSERT INTO users (username, password) VALUES (?, ?)").run(
+      username,
+      hashedPassword,
+    );
     res.json({ success: true, message: "Registration successful" });
   } catch (error) {
     res.status(500).json({

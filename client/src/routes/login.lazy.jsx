@@ -1,7 +1,7 @@
 import { createLazyFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-
 import { useNavigate } from '@tanstack/react-router';
+import Modal from '../Modal';
 
 export const Route = createLazyFileRoute('/login')({
   component: RouteComponent,
@@ -11,6 +11,7 @@ function RouteComponent() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   async function submitLoginForm(event) {
     event.preventDefault();
@@ -43,7 +44,10 @@ function RouteComponent() {
       navigate({ to: '/' }); // Redirect to home page after successful login
     } catch (error) {
       console.error('Error logging in:', error);
-      alert('Login failed. Please check your credentials and try again.');
+      setMessage(
+        'Login failed. Please check your credentials and try again.\n' +
+          error.message
+      );
     }
   }
 
@@ -63,6 +67,15 @@ function RouteComponent() {
   useEffect(() => {
     autologin();
   }, []);
+
+  if (message) {
+    return (
+      <Modal>
+        <p>{message}</p>
+        <button onClick={() => setMessage('')}>Close</button>
+      </Modal>
+    );
+  }
 
   return (
     <main>
