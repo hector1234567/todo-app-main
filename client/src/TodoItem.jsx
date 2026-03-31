@@ -7,6 +7,8 @@ import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import iconCheck from '/images/icon-check.svg';
+import iconCross from '/images/icon-cross.svg';
 
 function TodoItem({ item, onUpdate, id, index }) {
   const queryClient = useQueryClient();
@@ -76,13 +78,11 @@ function TodoItem({ item, onUpdate, id, index }) {
       data-shadow={isDragging || undefined}
     >
       <button className="done-button" onClick={toggleCompleted}>
-        {item.completed ? (
-          <img src="./images/icon-check.svg" alt="icon check" />
-        ) : null}
+        {item.completed ? <img src={iconCheck} alt="icon check" /> : null}
       </button>
       <span>{item.text}</span>
       <button className="delete-button" onClick={deleteMutation.mutate}>
-        <img src="./images/icon-cross.svg" alt="icon cross" />
+        <img src={iconCross} alt="icon cross" />
       </button>
     </li>
   );
