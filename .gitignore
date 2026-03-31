@@ -47,5 +47,6 @@ database.db
 Thumbs.db
 
 /client/src/routeTree.gen.ts
+client/dist
 
 /server/database.db

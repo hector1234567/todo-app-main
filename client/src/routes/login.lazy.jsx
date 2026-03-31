@@ -44,10 +44,7 @@ function RouteComponent() {
       navigate({ to: '/' }); // Redirect to home page after successful login
     } catch (error) {
       console.error('Error logging in:', error);
-      setMessage(
-        'Login failed. Please check your credentials and try again.\n' +
-          error.message
-      );
+      setMessage('Login failed. Please check your credentials and try again.');
     }
   }
 

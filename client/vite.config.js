@@ -5,15 +5,18 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite';
 export default defineConfig({
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-      '/public': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
+      '/api': 'http://server:3000', // nombre del servicio en compose
     },
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true,
+    //   },
+    //   '/public': {
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true,
+    //   },
+    // },
   },
   plugins: [
     tanstackRouter({

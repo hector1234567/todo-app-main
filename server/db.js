@@ -23,11 +23,4 @@ db.exec(`
   )
 `);
 
-// db.exec(`
-//     INSERT INTO todos (text, completed) VALUES
-//     ('Learn JavaScript', FALSE),
-//     ('Build a to-do app', TRUE),
-//     ('Master React', FALSE)
-// `);
-
 export default db;
