@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import iconSun from '/images/icon-sun.svg';
+import iconMoon from '/images/icon-moon.svg';
 
 export default function ThemeButton() {
   const [theme, setTheme] = React.useState(
@@ -18,9 +20,9 @@ export default function ThemeButton() {
   return (
     <button onClick={switchTheme} className="header-link">
       {theme === 'dark' ? (
-        <img src="./images/icon-sun.svg" alt="icon sun" />
+        <img src={iconSun} alt="icon sun" />
       ) : (
-        <img src="./images/icon-moon.svg" alt="icon moon" />
+        <img src={iconMoon} alt="icon moon" />
       )}
     </button>
   );
