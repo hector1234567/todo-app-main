@@ -16,24 +16,11 @@ export default function ActionsPannel({ filter, setFilter }) {
       try {
         await deleteTodo(item.id);
       } catch (error) {
-        setMessage(
-          'Failed to clear completed items. ' +
-            (error.message || 'Please try again.')
-        );
+        setMessage('Failed to clear completed items.');
       }
     });
     const todos = await getTodos();
     setItems(todos);
-  }
-
-  if (message) {
-    return (
-      <Modal>
-        <p>{message}</p>
-        <Link to="/login">Login</Link>
-        <button onClick={() => setMessage('')}>Close</button>
-      </Modal>
-    );
   }
 
   return (
@@ -93,6 +80,14 @@ export default function ActionsPannel({ filter, setFilter }) {
           </button>
         </div>
       </div>
+
+      {message && (
+        <Modal>
+          <p>{message}</p>
+          <Link to="/login">Login</Link>
+          <button onClick={() => setMessage('')}>Close</button>
+        </Modal>
+      )}
     </>
   );
 }

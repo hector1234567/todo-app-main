@@ -21,20 +21,8 @@ export default function TodoForm() {
       setItems(todos);
     } catch (error) {
       console.error('Error submitting todo:', error);
-      setMessage(
-        'Failed to create todo. ' + (error.message || 'Please try again.')
-      );
+      setMessage('Failed to create todo.');
     }
-  }
-
-  if (message) {
-    return (
-      <Modal>
-        <p>{message}</p>
-        <Link to="/login">Login</Link>
-        <button onClick={() => setMessage('')}>Close</button>
-      </Modal>
-    );
   }
 
   return (
@@ -48,6 +36,14 @@ export default function TodoForm() {
         autoComplete="off"
         onChange={(e) => setInputValue(e.target.value)}
       />
+
+      {message && (
+        <Modal>
+          <p>{message}</p>
+          <Link to="/login">Login</Link>
+          <button onClick={() => setMessage('')}>Close</button>
+        </Modal>
+      )}
     </form>
   );
 }

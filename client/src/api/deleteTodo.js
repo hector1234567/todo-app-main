@@ -1,3 +1,5 @@
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export async function deleteTodo(id) {
   try {
     const token = localStorage.getItem('token');
@@ -6,7 +8,7 @@ export async function deleteTodo(id) {
       throw new Error('Please log in.');
     }
 
-    const response = await fetch(`/api/todos/${id}`, {
+    const response = await fetch(`${BASE_URL || ''}/api/todos/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: token,

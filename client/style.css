@@ -164,11 +164,6 @@ header {
       opacity: 0.8;
     }
   }
-
-  button img {
-    width: 110%;
-    height: 110%;
-  }
 }
 
 h1 {
@@ -395,6 +390,7 @@ form {
   box-shadow: var(--drop-shadow);
   color: var(--text-weak-color);
   font-size: 1.4rem;
+  z-index: 1;
 
   button {
     font-family: inherit;

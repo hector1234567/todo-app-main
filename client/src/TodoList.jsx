@@ -11,6 +11,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -57,9 +58,7 @@ export default function TodoList({ filter }) {
         )
       );
     } catch (error) {
-      setMessage(
-        'Failed to reorder todos. ' + (error.message || 'Please try again.')
-      );
+      setMessage('Failed to reorder todos.');
     }
   }
 
@@ -87,18 +86,14 @@ export default function TodoList({ filter }) {
       activationConstraint: {
         distance: 8, // El drag solo empieza si mueves 8px
       },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250, // ms antes de activar el drag
+        tolerance: 5, // px de movimiento permitido durante el delay
+      },
     })
   );
-
-  if (message) {
-    return (
-      <Modal>
-        <p>{message}</p>
-        <Link to="/login">Login</Link>
-        <button onClick={() => setMessage('')}>Close</button>
-      </Modal>
-    );
-  }
 
   return (
     <ul id="list">
@@ -119,6 +114,14 @@ export default function TodoList({ filter }) {
           ))}
         </SortableContext>
       </DndContext>
+
+      {message && (
+        <Modal>
+          <p>{message}</p>
+          <Link to="/login">Login</Link>
+          <button onClick={() => setMessage('')}>Close</button>
+        </Modal>
+      )}
     </ul>
   );
 }

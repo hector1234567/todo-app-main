@@ -1,3 +1,5 @@
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export async function getTodos() {
   try {
     const token = localStorage.getItem('token');
@@ -7,7 +9,7 @@ export async function getTodos() {
       const response = await fetch('/todos.json');
       return response.json();
     }
-    const response = await fetch('/api/todos', {
+    const response = await fetch(`${BASE_URL || ''}/api/todos`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

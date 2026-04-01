@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import Modal from '../Modal';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const Route = createLazyFileRoute('/register')({
   component: RouteComponent,
 });
@@ -25,7 +27,7 @@ function RouteComponent() {
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${BASE_URL || ''}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,17 +45,12 @@ function RouteComponent() {
       navigate({ to: '/login' });
     } catch (error) {
       console.error('Error registering:', error);
-      setMessage('Registration failed. Please try again.\n' + error.message);
+      if (error.message.indexOf('UNIQUE')) {
+        setMessage('Username already exists. Please choose a different one.');
+      } else {
+        setMessage('Registration failed.');
+      }
     }
-  }
-
-  if (message) {
-    return (
-      <Modal>
-        <p>{message}</p>
-        <button onClick={() => setMessage('')}>Close</button>
-      </Modal>
-    );
   }
 
   return (
@@ -67,19 +64,9 @@ function RouteComponent() {
           placeholder="Username"
           value={username}
           required
-          autocomplete="webauthn username"
+          autoComplete="webauthn username"
           onChange={(e) => setUsername(e.target.value)}
         />
-        {/* <input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          required
-          autocomplete="webauthn email"
-          onChange={(e) => setEmail(e.target.value)}
-        /> */}
         <input
           type="password"
           id="password"
@@ -87,7 +74,7 @@ function RouteComponent() {
           placeholder="Password"
           value={password}
           required
-          autocomplete="webauthn new-password"
+          autoComplete="webauthn new-password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
@@ -97,11 +84,18 @@ function RouteComponent() {
           placeholder="Confirm Password"
           value={confirmPassword}
           required
-          autocomplete="webauthn repeat-password"
+          autoComplete="webauthn repeat-password"
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <button type="submit">Register</button>
       </form>
+
+      {message && (
+        <Modal>
+          <p>{message}</p>
+          <button onClick={() => setMessage('')}>Close</button>
+        </Modal>
+      )}
     </main>
   );
 }

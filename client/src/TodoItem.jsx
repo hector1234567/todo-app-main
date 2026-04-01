@@ -30,6 +30,7 @@ function TodoItem({ item, onUpdate, id, index }) {
     cursor: 'grab',
     zIndex: isDragging ? 999 : 'auto',
     position: 'relative',
+    touchAction: 'none',
   };
 
   const deleteMutation = useMutation({
@@ -38,9 +39,7 @@ function TodoItem({ item, onUpdate, id, index }) {
       queryClient.invalidateQueries({ queryKey: ['todos'] }); // recarga automático
     },
     onError: (error) => {
-      setMessage(
-        'Failed to delete todo. ' + (error.message || 'Please try again.')
-      );
+      setMessage('Failed to delete todo.');
     },
   });
 
@@ -50,26 +49,14 @@ function TodoItem({ item, onUpdate, id, index }) {
       const todos = await getTodos();
       onUpdate(todos);
     } catch (error) {
-      setMessage(
-        'Failed to update todo. ' + (error.message || 'Please try again.')
-      );
+      setMessage('Failed to update todo.');
     }
-  }
-
-  if (message) {
-    return (
-      <Modal>
-        <p>{message}</p>
-        <Link to="/login">Login</Link>
-        <button onClick={() => setMessage('')}>Close</button>
-      </Modal>
-    );
   }
 
   return (
     <li
       className="item"
-      // draggable="true"
+      draggable="true"
       data-completed={item.completed ? 'true' : 'false'}
       ref={setNodeRef}
       style={style}
@@ -84,6 +71,14 @@ function TodoItem({ item, onUpdate, id, index }) {
       <button className="delete-button" onClick={deleteMutation.mutate}>
         <img src={iconCross} alt="icon cross" />
       </button>
+
+      {message && (
+        <Modal>
+          <p>{message}</p>
+          <Link to="/login">Login</Link>
+          <button onClick={() => setMessage('')}>Close</button>
+        </Modal>
+      )}
     </li>
   );
 }

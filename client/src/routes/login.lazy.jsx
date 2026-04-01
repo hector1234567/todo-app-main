@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import Modal from '../Modal';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const Route = createLazyFileRoute('/login')({
   component: RouteComponent,
 });
@@ -17,7 +19,7 @@ function RouteComponent() {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${BASE_URL || ''}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,13 +52,13 @@ function RouteComponent() {
 
   async function autologin() {
     if (window.PasswordCredential) {
-      const credentials = await navigator.credentials.get({ password: true });
       try {
+        const credentials = await navigator.credentials.get({ password: true });
         setUsername(credentials.id);
         setPassword(credentials.password);
         // await submitLoginForm(new Event('submit'));
       } catch (e) {
-        console.error('Autologin failed:', e);
+        console.error('Autologin failed');
       }
     }
   }
@@ -64,15 +66,6 @@ function RouteComponent() {
   useEffect(() => {
     autologin();
   }, []);
-
-  if (message) {
-    return (
-      <Modal>
-        <p>{message}</p>
-        <button onClick={() => setMessage('')}>Close</button>
-      </Modal>
-    );
-  }
 
   return (
     <main>
@@ -103,6 +96,13 @@ function RouteComponent() {
           Don't have an account? Register
         </Link>
       </form>
+
+      {message && (
+        <Modal>
+          <p>{message}</p>
+          <button onClick={() => setMessage('')}>Close</button>
+        </Modal>
+      )}
     </main>
   );
 }
